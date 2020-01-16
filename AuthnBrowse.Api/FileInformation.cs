@@ -1,4 +1,4 @@
-namespace AuthnBrowseApi
+namespace AuthnBrowse.Api
 {
     public class FileInformation
     {

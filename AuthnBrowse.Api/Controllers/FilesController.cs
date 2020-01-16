@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace AuthnBrowseApi.Controllers
+namespace AuthnBrowse.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AuthnBrowse.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace AuthnBrowse.Api
 {
@@ -21,10 +15,24 @@ namespace AuthnBrowse.Api
         }
 
         public IConfiguration Configuration { get; }
+        
+        readonly string CorsPolicy = "_corsPolicy";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CorsPolicy,
+                    builder =>
+                    {
+                        builder.AllowAnyMethod();
+                        builder.AllowAnyOrigin();
+                    });
+            });
+
+            services.AddSingleton(typeof(IFileSystemService), typeof(FileSystemService));
+
             services.AddControllers();
         }
 
@@ -35,6 +43,8 @@ namespace AuthnBrowse.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(CorsPolicy);
 
             app.UseHttpsRedirection();
 

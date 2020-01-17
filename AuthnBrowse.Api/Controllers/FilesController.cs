@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using AuthnBrowse.Api.Data;
+using AuthnBrowse.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -10,27 +11,20 @@ namespace AuthnBrowse.Api.Controllers
     [Route("[controller]")]
     public class FilesController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<FilesController> _logger;
+        private readonly IFileSystemService _fileSystemService;
 
-        public FilesController(ILogger<FilesController> logger)
+        public FilesController(ILogger<FilesController> logger, IFileSystemService fileSystemService)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _fileSystemService = fileSystemService ?? throw new ArgumentNullException(nameof(fileSystemService));
         }
 
         [HttpGet]
-        public IEnumerable<FileInformation> Get()
+        [Route("{path?}")]
+        public IEnumerable<FileInformation> Get(string path)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new FileInformation
-                {
-                    FileName = Summaries[rng.Next(Summaries.Length)]
-                })
-                .ToArray();
+            return _fileSystemService.GetFiles(path);
         }
     }
 }

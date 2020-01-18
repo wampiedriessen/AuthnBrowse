@@ -1,11 +1,13 @@
 <template>
-  <div class="container is-fluid">
-    <div v-if="!files" class="notification">
-        <i class="fas fa-spinner fa-pulse"></i> <strong>Loading your files....</strong>
+  <div>
+    <div v-if="!files" class="container is-fluid">
+      <div class="notification">
+        <i class="fas fa-spinner fa-pulse"/> <strong>Loading your files....</strong>
+      </div>
     </div>
     <div v-else class="columns">
-      <div class="column is-half-desktop is-one-third-widescreen is-one-quarter-fullhd" v-for="(file, i) in files" v-bind:key="i">
-        <file-display v-bind:fileinfo="file"></file-display>
+      <div class="column is-half-mobile is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd" v-for="(file, i) in files" v-bind:key="i">
+        <file-display :file-info="file"/>
       </div>
     </div>
   </div>

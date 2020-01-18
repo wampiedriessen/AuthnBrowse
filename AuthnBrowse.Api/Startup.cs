@@ -31,6 +31,9 @@ namespace AuthnBrowse.Api
                     });
             });
 
+            services.Configure<FileSystemOptions>(Configuration.GetSection("FileSystem"));
+            
+
             services.AddSingleton(typeof(IFileSystemService), typeof(FileSystemService));
 
             services.AddControllers();

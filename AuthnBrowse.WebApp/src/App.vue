@@ -17,7 +17,7 @@
             </div>
             <div class="column">
               <div class="box">
-                <login-box :container="container"></login-box>
+                <login-box :container="container"/>
               </div>
             </div>
           </div>
@@ -25,7 +25,7 @@
       </div>
     </section>
     <section style="margin-top: 10px">
-      <folder-tiles :container="container"></folder-tiles>
+      <folder-tiles :container="container" class="container"/>
     </section>
   </div>
 </template>

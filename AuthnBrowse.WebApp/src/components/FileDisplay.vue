@@ -8,11 +8,11 @@
         <div class="card-content">
             <div class="level">
                 <div class="level-left">
-                    <i v-if="fileinfo.isDirectory" class="fas fa-folder"></i>
-                    {{ fileinfo.fileName }}
+                    <i v-if="fileInfo.isDirectory" class="fas fa-folder"/>
+                    {{ fileInfo.fileName }}
                 </div>
                 <div class="level-right has-text-right">
-                    <small>@ {{ fileinfo.fileSize }}</small>
+                    <small>@ {{ fileInfo.fileSize }}</small>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
     export default {
         name: "FileDisplay",
         props: {
-            fileinfo: Object
+            fileInfo: Object
         }
     }
 </script>

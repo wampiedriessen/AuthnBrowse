@@ -21,10 +21,25 @@ namespace AuthnBrowse.Api.Controllers
         }
 
         [HttpGet]
-        [Route("{path?}")]
-        public IEnumerable<FileInformation> Get(string path)
+        [Route("")]
+        public IEnumerable<FileInformation> Get()
         {
-            return _fileSystemService.GetFiles(path);
+            return _fileSystemService.GetRootFiles();
+        }
+
+        [HttpGet]
+        [Route("/dir/{fileId:guid}")]
+        public IEnumerable<FileInformation> Get(Guid fileId)
+        {
+            return _fileSystemService.GetDirectory(fileId);
+        }
+
+        [HttpGet]
+        [Route("/file/{fileId:guid}")]
+        public IActionResult Download(Guid fileId)
+        {
+            using var file = _fileSystemService.GetDownload(fileId);
+            return File(file, "application/download");
         }
     }
 }

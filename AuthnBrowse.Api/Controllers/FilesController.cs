@@ -29,17 +29,42 @@ namespace AuthnBrowse.Api.Controllers
 
         [HttpGet]
         [Route("/dir/{fileId:guid}")]
-        public IEnumerable<FileInformation> Get(Guid fileId)
+        public IActionResult Get(Guid fileId)
         {
-            return _fileSystemService.GetDirectory(fileId);
+            try
+            {
+                return Ok(_fileSystemService.GetDirectory(fileId));
+            }
+            catch (FileNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (FileNotADirectoryException)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet]
         [Route("/file/{fileId:guid}")]
         public IActionResult Download(Guid fileId)
         {
-            using var file = _fileSystemService.GetDownload(fileId);
-            return File(file, "application/download");
+            try
+            {
+                using (var file = _fileSystemService.GetDownload(fileId))
+                {
+                    _logger.Log(LogLevel.Information, "File downloaded", fileId);
+                    return File(file, "application/download");
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (FileNotARegularFileException)
+            {
+                return BadRequest();
+            }
         }
     }
 }
